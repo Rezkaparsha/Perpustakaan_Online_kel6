@@ -1,25 +1,20 @@
 <?php
-// Pastikan session aktif
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Cek role
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'petugas') {
-    header("Location: ../auth/v_login.php?msg=Akses ditolak. Silakan login sebagai petugas.");
+    header("Location: /PERPUSTAKAAN_kel6/index.php?page=login&msg=Akses ditolak. Silakan login sebagai petugas.");
     exit;
 }
 
-// Gunakan __DIR__ agar path selalu benar
 include_once __DIR__ . "/../../template/navbar_petugas.php";
 include_once __DIR__ . "/../../model/m_buku.php";
 include_once __DIR__ . "/../../model/m_user.php";
 
-// Inisialisasi model
 $bukuModel = new m_buku();
 $userModel = new m_user();
 
-// Ambil data
 $allBuku = $bukuModel->tampil_buku();
 $allUsers = $userModel->tampil_data();
 

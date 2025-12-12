@@ -1,22 +1,21 @@
 <?php
-// Pastikan session aktif
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Cek role
-if (!isset($_SESSION['role']) || $_SESSION['role'] != 'pengguna') {
-    header("Location: ../auth/v_login.php?msg=Akses ditolak");
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'pengguna') {
+    header("Location: /PERPUSTAKAAN_kel6/index.php?page=login&msg=Akses ditolak. Silakan login sebagai pengguna.");
     exit;
 }
 
-// Gunakan __DIR__ agar path selalu benar
 include_once __DIR__ . "/../../template/navbar_pengguna.php"; 
 include_once __DIR__ . "/../../model/m_buku.php";
 
 $bukuModel = new m_buku();
 $daftarBuku = $bukuModel->tampil_buku();
 ?>
+<!-- HTML dashboard pengguna seperti versi kamu, tetap sama -->
+
 <!DOCTYPE html>
 <html lang="id">
 <head>

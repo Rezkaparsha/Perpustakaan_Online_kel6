@@ -18,10 +18,10 @@ $page = $_GET['page'] ?? '';
       </div>
       <div class="offcanvas-body">
         <ul class="navbar-nav">
-          <?php if ($role == 'petugas'): ?>
+          <?php if ($role === 'petugas'): ?>
             <li class="nav-item">
-              <a class="nav-link <?= ($page == 'dashboard') ? 'active' : '' ?>"
-                 href="/PERPUSTAKAAN_kel6/index.php?page=dashboard">Dashboard</a>
+              <a class="nav-link <?= ($page == 'dashboard_petugas') ? 'active' : '' ?>"
+                 href="/PERPUSTAKAAN_kel6/index.php?page=dashboard_petugas">Dashboard</a>
             </li>
             <li class="nav-item">
               <a class="nav-link <?= ($page == 'buku') ? 'active' : '' ?>"

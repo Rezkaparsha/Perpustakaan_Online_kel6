@@ -6,23 +6,18 @@ if (session_status() === PHP_SESSION_NONE) {
 $role = $_SESSION['role'] ?? 'guest';
 $page = $_GET['page'] ?? '';
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            padding-top: 70px;
-        }
+        body { padding-top: 70px; }
     </style>
 </head>
-
 <body>
-    <nav class="navbar navbar-dark bg-primary fixed-top">
+<nav class="navbar navbar-dark bg-primary fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Perpustakaan Online</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuUser">
@@ -35,10 +30,10 @@ $page = $_GET['page'] ?? '';
       </div>
       <div class="offcanvas-body">
         <ul class="navbar-nav">
-          <?php if ($role == 'pengguna'): ?>
+          <?php if ($role === 'pengguna'): ?>
             <li class="nav-item">
-              <a class="nav-link <?= ($page == 'dashboard') ? 'active' : '' ?>"
-                 href="/PERPUSTAKAAN_kel6/index.php?page=dashboard">Dashboard</a>
+              <a class="nav-link <?= ($page == 'dashboard_pengguna') ? 'active' : '' ?>"
+                 href="/PERPUSTAKAAN_kel6/index.php?page=dashboard_pengguna">Dashboard</a>
             </li>
             <li class="nav-item">
               <a class="nav-link <?= ($page == 'profil') ? 'active' : '' ?>"
@@ -57,9 +52,6 @@ $page = $_GET['page'] ?? '';
     </div>
   </div>
 </nav>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
