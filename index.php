@@ -29,7 +29,7 @@ if ($page === 'register_process') {
 
 if ($page === 'logout') {
     session_destroy();
-    header("Location: /PERPUSTAKAAN_kel6/index.php?page=login&msg=Anda sudah logout");
+    header("Location: /index.php?page=login&msg=Anda sudah logout");
     exit;
 }
 
