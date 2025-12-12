@@ -1,85 +1,61 @@
 <?php
-include_once __DIR__ . "/../model/m_user.php";
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once __DIR__ . "/../model/m_user.php";
 
 $userModel = new m_user();
+$aksi = $_GET['aksi'] ?? '';
 
-//Tampilkan semua data pengguna (dipakai oleh v_daftar_pengguna.php)
-if (!isset($_GET['aksi'])) {
-    $users = $userModel->tampil_data();
-    return;
-}
-
-// Tambah pengguna
-if ($_GET['aksi'] == "tambah") {
-    $username = $_POST['username'];
-    $email    = $_POST['email'];
-    $password = $_POST['password'];
-    $role     = $_POST['role'];
-
-    $result = $userModel->tambah_data($username, $email, $password, $role);
-
-    echo "<script>alert('" . ($result ? "Pengguna berhasil ditambahkan" : "Gagal menambah pengguna") . "');
-          window.location='/PERPUSTAKAAN_kel6/views/PETUGAS/v_daftar_pengguna.php';</script>";
-    exit;
-}
-
-// Edit pengguna 
-if ($_GET['aksi'] == "edit") {
-    if (!isset($_GET['id_user'])) {
-        echo "<script>alert('ID pengguna tidak ditemukan');
-              window.location='/PERPUSTAKAAN_kel6/views/PETUGAS/v_daftar_pengguna.php';</script>";
+// ----------------- EDIT USER -----------------
+if ($aksi === "edit") {
+    $id = $_GET['id_user'] ?? null;
+    if (!$id) {
+        header("Location: /PERPUSTAKAAN_kel6/index.php?page=pengguna&msg=ID pengguna tidak ditemukan");
         exit;
     }
 
-    $id_user = $_GET['id_user'];
-    $user = $userModel->tampil_data_by_id($id_user);
+    $user = $userModel->get_user_by_id($id);
+    if (!$user) {
+        header("Location: /PERPUSTAKAAN_kel6/index.php?page=pengguna&msg=Data pengguna tidak ditemukan");
+        exit;
+    }
 
     include __DIR__ . "/../views/PETUGAS/v_form_ubah_pengguna.php";
     exit;
 }
 
-//  Update pengguna
-if ($_GET['aksi'] == "update") {
-    $id_user  = $_POST['id_user'];
+// ----------------- UPDATE USER -----------------
+if ($aksi === "update") {
+    $id       = $_POST['id_user'];
     $username = $_POST['username'];
     $email    = $_POST['email'];
+    $password = $_POST['password'];
     $role     = $_POST['role'];
-    $password = !empty($_POST['password']) ? $_POST['password'] : null;
 
-    $result = $userModel->ubah_data($id_user, $username, $email, $role, $password);
-
-    echo "<script>alert('Data " . ($result ? "berhasil" : "gagal") . " diubah');
-          window.location='/PERPUSTAKAAN_kel6/views/PETUGAS/v_daftar_pengguna.php';</script>";
-    exit;
-}
-
-//  Hapus pengguna
-if ($_GET['aksi'] == "hapus") {
-    if (!isset($_GET['id_user'])) {
-        echo "<script>alert('ID pengguna tidak ditemukan');
-              window.location='/PERPUSTAKAAN_kel6/views/PETUGAS/v_daftar_pengguna.php';</script>";
-        exit;
+    if (empty($password)) {
+        // Update tanpa ubah password
+        $userModel->update_user_no_password($id, $username, $email, $role);
+    } else {
+        // Update dengan password baru
+        $userModel->update_user($id, $username, $email, $password, $role);
     }
 
-    $id_user = $_GET['id_user'];
-    $result = $userModel->hapus_data($id_user);
-
-    echo "<script>alert('Pengguna " . ($result ? "berhasil" : "gagal") . " dihapus');
-          window.location='/PERPUSTAKAAN_kel6/views/PETUGAS/v_daftar_pengguna.php';</script>";
+    echo "<script>alert('Data pengguna berhasil diupdate!'); 
+          window.location='/PERPUSTAKAAN_kel6/index.php?page=pengguna';</script>";
     exit;
 }
 
-// Update profil pengguna (khusus pengguna login)
-if ($_GET['aksi'] == "update_profil") {
-    $id_user  = $_POST['id_user'];
-    $username = $_POST['username'];
-    $email    = $_POST['email'];
-    $password = !empty($_POST['password']) ? $_POST['password'] : null;
-
-    // Role tidak diubah karena tetap "pengguna"
-    $result = $userModel->ubah_data($id_user, $username, $email, 'pengguna', $password);
-
-    echo "<script>alert('Profil berhasil diperbarui');
-          window.location='/PERPUSTAKAAN_kel6/views/PENGGUNA/dasbord_pengguna.php';</script>";
+// ----------------- HAPUS USER -----------------
+if ($aksi === "hapus") {
+    $id = $_GET['id_user'] ?? null;
+    if ($id) {
+        $userModel->hapus_user($id);
+        echo "<script>alert('Data pengguna berhasil dihapus!'); 
+              window.location='/PERPUSTAKAAN_kel6/index.php?page=pengguna';</script>";
+    } else {
+        header("Location: /PERPUSTAKAAN_kel6/index.php?page=pengguna&msg=ID pengguna tidak ditemukan");
+    }
     exit;
 }

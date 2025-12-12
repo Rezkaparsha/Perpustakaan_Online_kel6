@@ -65,7 +65,7 @@ $daftarBuku = $bukuModel->tampil_buku();
                 <td><?= $no++ ?></td>
                 <td>
                   <?php if (!empty($buku->cover)): ?>
-                    <img src="/PERPUSTAKAAN_kel6/uploads/buku/<?= htmlspecialchars($buku->cover) ?>"
+                    <img src="/PERPUSTAKAAN_kel6/uploads/cover/<?= htmlspecialchars($buku->cover) ?>"
                          class="cover-img"
                          alt="Cover <?= htmlspecialchars($buku->judul) ?>"
                          onerror="this.onerror=null;this.src='https://placehold.co/60x90/D1E7FF/007bff?text=NO+COVER'">
@@ -77,8 +77,12 @@ $daftarBuku = $bukuModel->tampil_buku();
                 <td><?= htmlspecialchars($buku->penulis) ?></td>
                 <td><?= htmlspecialchars($buku->penerbit) ?> (<?= htmlspecialchars($buku->tahun_terbit) ?>)</td>
                 <td>
-                  <a href="/PERPUSTAKAAN_kel6/uploads/buku/<?= htmlspecialchars($buku->file_pdf) ?>" target="_blank"
-                     class="btn btn-info action-btn text-white"><i class="fas fa-eye"></i> Baca</a>
+                  <?php if (!empty($buku->file_pdf)): ?>
+                    <a href="/PERPUSTAKAAN_kel6/uploads/buku/<?= htmlspecialchars($buku->file_pdf) ?>" target="_blank"
+                       class="btn btn-info action-btn text-white"><i class="fas fa-eye"></i> Baca</a>
+                  <?php else: ?>
+                    <button class="btn btn-secondary action-btn" disabled><i class="fas fa-ban"></i> Tidak ada PDF</button>
+                  <?php endif; ?>
                   <a href="/PERPUSTAKAAN_kel6/controller/c_buku.php?aksi=edit&id_buku=<?= $buku->id_buku ?>"
                      class="btn btn-warning action-btn text-dark"><i class="fas fa-edit"></i> Edit</a>
                   <a href="/PERPUSTAKAAN_kel6/controller/c_buku.php?aksi=hapus&id_buku=<?= $buku->id_buku ?>"

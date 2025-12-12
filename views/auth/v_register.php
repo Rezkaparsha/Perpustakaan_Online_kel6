@@ -1,6 +1,20 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Jika sudah login, arahkan sesuai role
+if (isset($_SESSION['role'])) {
+    if ($_SESSION['role'] === 'petugas') {
+        header("Location: /PERPUSTAKAAN_kel6/index.php?page=dashboard_petugas");
+    } elseif ($_SESSION['role'] === 'pengguna') {
+        header("Location: /PERPUSTAKAAN_kel6/index.php?page=dashboard_pengguna");
+    }
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8">
   <title>Daftar Akun</title>
@@ -16,7 +30,6 @@
       min-height: 100vh;
       margin: 0;
     }
-
     .login-card {
       background: #fff;
       padding: 40px;
@@ -26,99 +39,47 @@
       max-width: 450px;
       animation: fadeIn 1s ease-in-out;
     }
-
     .login-title {
       text-align: center;
       font-weight: bold;
       margin-bottom: 25px;
       color: #007BFF;
     }
-
-    .form-control {
-      border-radius: 8px;
-      padding-left: 40px;
-    }
-
-    .input-icon {
-      position: relative;
-    }
-
-    .input-icon i {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #888;
-    }
-
+    .form-control { border-radius: 8px; padding-left: 40px; }
+    .input-icon { position: relative; }
+    .input-icon i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #888; }
     .btn-success {
       background: linear-gradient(135deg, #28a745, #218838);
       border: none;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-
-    .btn-success:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .login-card small a {
-      color: #007BFF;
-      text-decoration: none;
-    }
-
-    .login-card small a:hover {
-      text-decoration: underline;
-    }
+    .btn-success:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
   </style>
 </head>
-
 <body>
-
   <div class="login-card">
-    <h3 class="login-title">📝 Daftar Akun</h3>
-
+    <h3 class="login-title">📝 Daftar Akun Baru</h3>
     <?php if (!empty($_GET['msg'])): ?>
-      <div class="alert alert-warning text-center"><?= $_GET['msg']; ?></div>
+      <div class="alert alert-danger text-center"><?= htmlspecialchars($_GET['msg']); ?></div>
     <?php endif; ?>
-
-    <form method="POST" action="proses_register.php">
-
-      <div class="mb-3 input-icon">
+    <form action="/PERPUSTAKAAN_kel6/index.php?page=register_process&aksi=register" method="POST">
+      <div class="input-icon mb-3">
         <i class="fa fa-user"></i>
         <input type="text" name="username" class="form-control" placeholder="Username" required>
       </div>
-
-      <div class="mb-3 input-icon">
+      <div class="input-icon mb-3">
         <i class="fa fa-envelope"></i>
         <input type="email" name="email" class="form-control" placeholder="Email" required>
       </div>
-
-      <div class="mb-3 input-icon">
+      <div class="input-icon mb-3">
         <i class="fa fa-lock"></i>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
       </div>
-
       <button type="submit" class="btn btn-success w-100">Daftar</button>
     </form>
-
     <div class="text-center mt-3">
-      <small>Sudah punya akun? <a href="v_login.php">Login</a></small>
+      <small>Sudah punya akun? <a href="/PERPUSTAKAAN_kel6/index.php?page=login">Login di sini</a></small>
     </div>
   </div>
-
 </body>
-
 </html>

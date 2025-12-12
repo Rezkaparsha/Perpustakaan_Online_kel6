@@ -13,12 +13,17 @@ if ($page === 'login') {
 }
 
 if ($page === 'login_process') {
-    include "controller/c_auth.php";
+    include "controller/c_auth.php"; // handle aksi=login
     exit;
 }
 
 if ($page === 'register') {
     include "views/auth/v_register.php";
+    exit;
+}
+
+if ($page === 'register_process') {
+    include "controller/c_auth.php"; // handle aksi=register
     exit;
 }
 
@@ -36,6 +41,7 @@ if ($role === 'petugas') {
     if ($page === 'ubah_buku') { include "views/PETUGAS/v_ubah_buku.php"; exit; }
     if ($page === 'pengguna') { include "views/PETUGAS/v_daftar_pengguna.php"; exit; }
     if ($page === 'tambah_pengguna') { include "views/PETUGAS/v_form_tambah_pengguna.php"; exit; }
+    if ($page === 'ubah_pengguna') { include "views/PETUGAS/v_form_ubah_pengguna.php"; exit; }
 }
 
 // ----------------- HALAMAN PENGGUNA -----------------
@@ -48,4 +54,3 @@ if ($role === 'pengguna') {
 // ----------------- HALAMAN DEFAULT -----------------
 include "views/auth/v_login.php";
 exit;
-?>

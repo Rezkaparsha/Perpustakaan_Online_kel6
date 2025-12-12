@@ -1,19 +1,16 @@
 <?php
 include_once "m_koneksi.php";
 
-class m_buku
-{
+class m_buku {
     private $conn;
 
-    public function __construct()
-    {
+    public function __construct() {
         $db = new m_koneksi();
         $this->conn = $db->koneksi;
     }
 
-    // Ambil semua data buku
-    public function tampil_buku()
-    {
+    // ----------------- AMBIL SEMUA DATA BUKU -----------------
+    public function tampil_buku() {
         $query = "SELECT id_buku, judul, penulis, penerbit, tahun_terbit, cover, file_pdf 
                   FROM buku ORDER BY id_buku DESC";
         $stmt = mysqli_prepare($this->conn, $query);
@@ -27,9 +24,8 @@ class m_buku
         return $data;
     }
 
-    // Ambil buku berdasarkan ID
-    public function get_buku_by_id($id_buku)
-    {
+    // ----------------- AMBIL BUKU BERDASARKAN ID -----------------
+    public function get_buku_by_id($id_buku) {
         $query = "SELECT id_buku, judul, penulis, penerbit, tahun_terbit, cover, file_pdf 
                   FROM buku WHERE id_buku = ?";
         $stmt = mysqli_prepare($this->conn, $query);
@@ -39,9 +35,8 @@ class m_buku
         return mysqli_fetch_object($result);
     }
 
-    // Tambah buku baru
-    public function tambah_buku($judul, $penulis, $penerbit, $tahun_terbit, $cover, $file_pdf)
-    {
+    // ----------------- TAMBAH BUKU BARU -----------------
+    public function tambah_buku($judul, $penulis, $penerbit, $tahun_terbit, $cover, $file_pdf) {
         $query = "INSERT INTO buku (judul, penulis, penerbit, tahun_terbit, cover, file_pdf)
                   VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($this->conn, $query);
@@ -49,9 +44,8 @@ class m_buku
         return mysqli_stmt_execute($stmt);
     }
 
-    // Update data buku
-    public function ubah_buku($id_buku, $judul, $penulis, $penerbit, $tahun_terbit, $cover = null, $file_pdf = null)
-    {
+    // ----------------- UPDATE DATA BUKU -----------------
+    public function ubah_buku($id_buku, $judul, $penulis, $penerbit, $tahun_terbit, $cover = null, $file_pdf = null) {
         if ($cover === null && $file_pdf === null) {
             $query = "UPDATE buku SET judul=?, penulis=?, penerbit=?, tahun_terbit=? WHERE id_buku=?";
             $stmt = mysqli_prepare($this->conn, $query);
@@ -73,18 +67,16 @@ class m_buku
         return mysqli_stmt_execute($stmt);
     }
 
-    // Hapus buku
-    public function hapus_buku($id_buku)
-    {
+    // ----------------- HAPUS BUKU -----------------
+    public function hapus_buku($id_buku) {
         $query = "DELETE FROM buku WHERE id_buku = ?";
         $stmt = mysqli_prepare($this->conn, $query);
         mysqli_stmt_bind_param($stmt, "i", $id_buku);
         return mysqli_stmt_execute($stmt);
     }
 
-    // Hitung total buku
-    public function total_buku()
-    {
+    // ----------------- HITUNG TOTAL BUKU -----------------
+    public function total_buku() {
         $query = "SELECT COUNT(*) AS total FROM buku";
         $stmt = mysqli_prepare($this->conn, $query);
         mysqli_stmt_execute($stmt);

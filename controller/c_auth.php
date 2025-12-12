@@ -58,3 +58,15 @@ if (isset($_GET['aksi']) && $_GET['aksi'] === "login") {
         exit;
     }
 }
+// handler register
+if (isset($_GET['aksi']) && $_GET['aksi'] === "register") {
+    $auth = new c_auth();
+    $result = $auth->register($_POST['username'], $_POST['email'], $_POST['password']);
+
+    if ($result === "success") {
+        header("Location: /PERPUSTAKAAN_kel6/index.php?page=login&msg=Registrasi berhasil, silakan login.");
+    } else {
+        header("Location: /PERPUSTAKAAN_kel6/index.php?page=register&msg=" . urlencode($result));
+    }
+    exit;
+}
