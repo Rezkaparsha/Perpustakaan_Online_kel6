@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 if (!isset($_SESSION['role']) || $_SESSION['role'] != 'petugas') {
     header("Location: ../auth/v_login.php?msg=Akses ditolak");
     exit;

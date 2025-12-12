@@ -10,10 +10,12 @@ class m_buku
         $db = new m_koneksi();
         $this->conn = $db->koneksi;
     }
-    //  Ambil semua data buku
+
+    // Ambil semua data buku
     public function tampil_buku()
     {
-        $query = "SELECT * FROM buku ORDER BY id_buku DESC";
+        $query = "SELECT id_buku, judul, penulis, penerbit, tahun_terbit, cover, file_pdf 
+                  FROM buku ORDER BY id_buku DESC";
         $stmt = mysqli_prepare($this->conn, $query);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
@@ -28,7 +30,8 @@ class m_buku
     // Ambil buku berdasarkan ID
     public function get_buku_by_id($id_buku)
     {
-        $query = "SELECT * FROM buku WHERE id_buku = ?";
+        $query = "SELECT id_buku, judul, penulis, penerbit, tahun_terbit, cover, file_pdf 
+                  FROM buku WHERE id_buku = ?";
         $stmt = mysqli_prepare($this->conn, $query);
         mysqli_stmt_bind_param($stmt, "i", $id_buku);
         mysqli_stmt_execute($stmt);
@@ -46,7 +49,7 @@ class m_buku
         return mysqli_stmt_execute($stmt);
     }
 
-    //  Update data buku
+    // Update data buku
     public function ubah_buku($id_buku, $judul, $penulis, $penerbit, $tahun_terbit, $cover = null, $file_pdf = null)
     {
         if ($cover === null && $file_pdf === null) {
@@ -70,7 +73,7 @@ class m_buku
         return mysqli_stmt_execute($stmt);
     }
 
-    //  Hapus buku
+    // Hapus buku
     public function hapus_buku($id_buku)
     {
         $query = "DELETE FROM buku WHERE id_buku = ?";
@@ -79,7 +82,7 @@ class m_buku
         return mysqli_stmt_execute($stmt);
     }
 
-    //  Hitung total buku
+    // Hitung total buku
     public function total_buku()
     {
         $query = "SELECT COUNT(*) AS total FROM buku";
@@ -87,6 +90,7 @@ class m_buku
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $row = mysqli_fetch_assoc($result);
-        return $row['total'];
+        return $row['total'] ?? 0;
     }
 }
+?>

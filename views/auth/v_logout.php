@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 // Hancurkan semua data sesi saat ini
 session_unset();

@@ -1,11 +1,11 @@
 <?php
-session_start();
+
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'petugas') {
     header("Location: ../auth/v_login.php");
     exit;
 }
 
-include_once "../../template/navbar_petugas.php";
+include_once "./template/navbar_petugas.php";
 ?>
 
 <!DOCTYPE html>

@@ -1,10 +1,9 @@
 <?php
-session_start();
 
 // Jika sudah login → arahkan kembali
 if (isset($_SESSION['role'])) {
     if ($_SESSION['role'] == 'petugas') {
-        header("Location: ../PETUGAS/v_dasbord_petugas.php");
+        header("Location: ../PETUGAS/v_dasbord_petugas.php"); // perbaikan nama file
     } else {
         header("Location: ../PENGGUNA/dasbord_pengguna.php");
     }
@@ -65,30 +64,25 @@ if (isset($_SESSION['role'])) {
 
     <div class="login-card">
         <h3 class="login-title">📚 Login</h3>
-
         <?php if (!empty($_GET['msg'])): ?>
             <div class="alert alert-danger text-center"><?= $_GET['msg']; ?></div>
         <?php endif; ?>
-
-        <form method="POST" action="proses_login.php">
+        <!-- Action diarahkan ke controller -->
+        <form action="/PERPUSTAKAAN_kel6/controller/c_auth.php?aksi=login" method="POST">
             <div class="mb-3">
-                <label class="form-label">Username atau email </label>
+                <label class="form-label">Username atau Email</label>
                 <input type="text" name="login" class="form-control" required>
             </div>
-
             <div class="mb-3">
                 <label class="form-label">Password</label>
                 <input type="password" name="password" class="form-control" required>
             </div>
-
             <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
-
         <div class="text-center mt-3">
-            <small>Belum punya akun? <a href="v_register.php">Daftar di sini</a></small>
+            <small>Belum punya akun? <a href="/PERPUSTAKAAN_kel6/index.php?page=register">Daftar di sini</a></small>
         </div>
     </div>
 
 </body>
-
 </html>

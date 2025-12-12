@@ -1,12 +1,12 @@
 <?php
-session_start();
+
 if (!isset($_SESSION['role']) || $_SESSION['role'] != 'petugas') {
   header("Location: /PERPUSTAKAAN_kel6/views/auth/v_login.php?msg=Akses ditolak");
   exit;
 }
 
-include_once "../../template/navbar_petugas.php";
-include_once "../../model/m_user.php";
+include_once "./template/navbar_petugas.php";
+include_once "./model/m_user.php";
 
 $userModel = new m_user();
 $users = $userModel->tampil_data();
