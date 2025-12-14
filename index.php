@@ -32,10 +32,14 @@ if ($page === 'register_process') {
 }
 
 if ($page === 'logout') {
-    session_destroy();
-    header("Location: /index.php?page=login&msg=Anda sudah logout");
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        session_unset();   // hapus semua variabel session
+        session_destroy(); // hancurkan session
+    }
+    header("Location: index.php?page=login&msg=Anda sudah logout");
     exit;
 }
+
 
 // ----------------- HALAMAN PETUGAS -----------------
 if ($role === 'petugas') {
