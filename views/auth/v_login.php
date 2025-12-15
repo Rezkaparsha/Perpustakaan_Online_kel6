@@ -1,6 +1,5 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
 }
 
 if (isset($_SESSION['role'])) {
@@ -59,7 +58,8 @@ if (isset($_SESSION['role'])) {
     <?php if (!empty($_GET['msg'])): ?>
       <div class="alert alert-danger text-center"><?= htmlspecialchars($_GET['msg']); ?></div>
     <?php endif; ?>
-    <form action="/PERPUSTAKAAN_kel6/index.php?page=login_process&aksi=login" method="POST">
+ <form action="index.php?page=login_process&aksi=login" method="POST">
+
       <div class="mb-3">
         <label class="form-label">Username atau Email</label>
         <input type="text" name="login" class="form-control" required>

@@ -33,7 +33,7 @@ $user      = $userModel->get_user_by_id($id_user); // gunakan fungsi get_user_by
 <body>
   <div class="form-container">
     <h4 class="mb-4">👤 Profil Saya</h4>
-    <form method="POST" action="/PERPUSTAKAAN_kel6/controller/c_user.php?aksi=update_profil">
+    <form method="POST" action="/PERPUSTAKAAN_kel6/index.php?page=pengguna_process&aksi=update_profil">
       <input type="hidden" name="id_user" value="<?= htmlspecialchars($user->id_user) ?>">
       <div class="mb-3">
         <label>Username</label>

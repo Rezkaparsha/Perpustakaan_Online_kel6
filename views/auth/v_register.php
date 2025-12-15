@@ -62,7 +62,7 @@ if (isset($_SESSION['role'])) {
     <?php if (!empty($_GET['msg'])): ?>
       <div class="alert alert-danger text-center"><?= htmlspecialchars($_GET['msg']); ?></div>
     <?php endif; ?>
-    <form action="/PERPUSTAKAAN_kel6/index.php?page=register_process&aksi=register" method="POST">
+    <form action="index.php?page=register_process&aksi=register" method="POST">
       <div class="input-icon mb-3">
         <i class="fa fa-user"></i>
         <input type="text" name="username" class="form-control" placeholder="Username" required>

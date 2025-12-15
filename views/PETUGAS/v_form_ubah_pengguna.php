@@ -1,29 +1,31 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 
 // Hanya petugas yang boleh akses
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'petugas') {
-    header("Location: /PERPUSTAKAAN_kel6/index.php?page=login&msg=Akses ditolak. Silakan login sebagai petugas.");
-    exit;
+  header("Location: /PERPUSTAKAAN_kel6/index.php?page=login&msg=Akses ditolak. Silakan login sebagai petugas.");
+  exit;
 }
 
 // Pastikan variabel $user sudah dikirim dari controller c_user.php (aksi=edit)
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <title>Form Update User</title>
   <link rel="stylesheet" href="/PERPUSTAKAAN_kel6/assets/form_ubah.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
   <div class="container mt-5">
     <div class="form-container card shadow p-4">
       <h2 class="mb-4 text-center">✏️ Form Edit User</h2>
-      <form action="/PERPUSTAKAAN_kel6/controller/c_user.php?aksi=update" method="POST">
+      <form action="/PERPUSTAKAAN_kel6/index.php?page=pengguna_process&aksi=update" method="POST">
         <input type="hidden" name="id_user" value="<?= htmlspecialchars($user->id_user) ?>">
 
         <div class="mb-3">
@@ -55,4 +57,5 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'petugas') {
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

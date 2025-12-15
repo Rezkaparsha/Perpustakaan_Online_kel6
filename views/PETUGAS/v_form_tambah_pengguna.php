@@ -5,10 +5,9 @@ include_once __DIR__ . "/../../template/navbar_petugas.php";
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Form Registrasi</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  <link rel="stylesheet" href="../assets/form_tambah.css">
-</head>
+  <title>Form Tambah Pengguna</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/form_tambah.css">
 <style>
     * {
       box-sizing: border-box;
@@ -107,14 +106,15 @@ include_once __DIR__ . "/../../template/navbar_petugas.php";
       }
     }
 </style>
+</head>
 <body>
   <div class="form-container">
-    <h2>Form Tambah User</h2>
-   <form method="POST" action="/PERPUSTAKAAN_kel6/controller/c_user.php?aksi=tambah">
+    <h2>Form Tambah Pengguna</h2>
+    <!-- Arahkan ke index.php agar routing bisa jalan -->
+    <form method="POST" action="index.php?page=pengguna_process&aksi=tambah">
       <div class="form-grid">
         <div class="left-column">
-
-          <input type="text" id="id_user" name="id_user" placeholder="id user" value="" hidden>
+          <input type="text" name="id_user" hidden>
 
           <label for="username">Username:</label>
           <input type="text" id="username" name="username" required>
@@ -130,10 +130,9 @@ include_once __DIR__ . "/../../template/navbar_petugas.php";
         </div>
       </div>
       <div class="submit-button">
-    <button type="submit">Daftar</button>
-  </div>
-  </div>
-  </form>
+        <button type="submit">Daftar</button>
+      </div>
+    </form>
   </div>
 </body>
 </html>

@@ -4,21 +4,33 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once __DIR__ . "/../model/m_user.php";
-
 $userModel = new m_user();
+
 $aksi = $_GET['aksi'] ?? '';
+$base = "index.php";
 
-// ----------------- EDIT USER (PETUGAS) -----------------
-if ($aksi === "edit") {
-    $id = $_GET['id_user'] ?? null;
-    if (!$id) {
-        header("Location: /PERPUSTAKAAN_kel6/index.php?page=pengguna&msg=ID pengguna tidak ditemukan");
-        exit;
-    }
+/* ================= TAMBAH USER ================= */
+if ($aksi === 'tambah') {
 
+    $userModel->tambah_data(
+        $_POST['username'],
+        $_POST['email'],
+        $_POST['password'],
+        $_POST['role']
+    );
+
+    header("Location: $base?page=pengguna");
+    exit;
+}
+
+/* ================= EDIT USER (AMBIL DATA) ================= */
+if ($aksi === 'edit') {
+
+    $id = $_GET['id_user'];
     $user = $userModel->get_user_by_id($id);
+
     if (!$user) {
-        header("Location: /PERPUSTAKAAN_kel6/index.php?page=pengguna&msg=Data pengguna tidak ditemukan");
+        header("Location: $base?page=pengguna");
         exit;
     }
 
@@ -26,58 +38,59 @@ if ($aksi === "edit") {
     exit;
 }
 
-// ----------------- UPDATE USER (PETUGAS) -----------------
-if ($aksi === "update") {
-    $id       = $_POST['id_user'];
-    $username = $_POST['username'];
-    $email    = $_POST['email'];
-    $password = $_POST['password'];
-    $role     = $_POST['role'];
+/* ================= UPDATE USER ================= */
+if ($aksi === 'update') {
 
-    if (empty($password)) {
-        $userModel->update_user_no_password($id, $username, $email, $role);
+    if (empty($_POST['password'])) {
+        $userModel->update_user_no_password(
+            $_POST['id_user'],
+            $_POST['username'],
+            $_POST['email'],
+            $_POST['role']
+        );
     } else {
-        $userModel->update_user($id, $username, $email, $password, $role);
+        $userModel->update_user(
+            $_POST['id_user'],
+            $_POST['username'],
+            $_POST['email'],
+            $_POST['password'],
+            $_POST['role']
+        );
     }
 
-    echo "<script>alert('Data pengguna berhasil diupdate!'); 
-          window.location='/PERPUSTAKAAN_kel6/index.php?page=pengguna';</script>";
+    header("Location: $base?page=pengguna");
     exit;
 }
 
-// ----------------- HAPUS USER (PETUGAS) -----------------
-if ($aksi === "hapus") {
-    $id = $_GET['id_user'] ?? null;
-    if ($id) {
-        $userModel->hapus_user($id);
-        echo "<script>alert('Data pengguna berhasil dihapus!'); 
-              window.location='/PERPUSTAKAAN_kel6/index.php?page=pengguna';</script>";
-    } else {
-        header("Location: /PERPUSTAKAAN_kel6/index.php?page=pengguna&msg=ID pengguna tidak ditemukan");
-    }
+/* ================= HAPUS USER ================= */
+if ($aksi === 'hapus') {
+
+    $userModel->hapus_user($_GET['id_user']);
+    header("Location: $base?page=pengguna");
     exit;
 }
 
-// ----------------- UPDATE PROFIL (PENGGUNA) -----------------
-if ($aksi === "update_profil") {
-    $id       = $_POST['id_user'];
-    $username = $_POST['username'];
-    $email    = $_POST['email'];
-    $password = $_POST['password'];
+/* ================= UPDATE PROFIL ================= */
+if ($aksi === 'update_profil') {
 
-    // Role tetap dari session (pengguna tidak boleh ubah role sendiri)
-    $role = $_SESSION['role'];
-
-    if (empty($password)) {
-        $userModel->update_user_no_password($id, $username, $email, $role);
+    if (empty($_POST['password'])) {
+        $userModel->update_user_no_password(
+            $_POST['id_user'],
+            $_POST['username'],
+            $_POST['email'],
+            $_SESSION['role']
+        );
     } else {
-        $userModel->update_user($id, $username, $email, $password, $role);
+        $userModel->update_user(
+            $_POST['id_user'],
+            $_POST['username'],
+            $_POST['email'],
+            $_POST['password'],
+            $_SESSION['role']
+        );
     }
 
-    // Update session supaya data terbaru langsung dipakai
-    $_SESSION['username'] = $username;
-
-    echo "<script>alert('Profil berhasil diperbarui!'); 
-          window.location='/PERPUSTAKAAN_kel6/index.php?page=profil';</script>";
+    $_SESSION['username'] = $_POST['username'];
+    header("Location: $base?page=profil");
     exit;
 }
